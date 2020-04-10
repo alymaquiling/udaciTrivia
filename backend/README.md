@@ -202,6 +202,58 @@ Here is a list of all the possible API calls you can make:
     }
   ```
 
+**Delete Question**
+----
+  Endpoint to DELETE a question based on id
+
+* **URL**
+
+  /questions/:id
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 204 <br />
+ 
+* **Error Response:**
+
+  * **Code:** 422 UNPROCESSABLE <br />
+    **Content:**
+    ```
+    {
+    "success": False,
+    "message": "Unprocessable"
+    }
+    ```
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: `/questions/${id}`, 
+      type: "DELETE",
+      success: (result) => {
+        this.getQuestions();
+      },
+      error: (error) => {
+        alert('Unable to load questions. Please try your request again')
+        return;
+      }
+    })
+  ```
+
 ## Testing
 To run the tests, run
 ```
