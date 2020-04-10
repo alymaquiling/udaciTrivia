@@ -68,7 +68,7 @@ Here is a list of all the possible API calls you can make:
 
   `GET`
   
-*  **URL Params**
+* **URL Params**
 
   None
 
@@ -93,7 +93,6 @@ Here is a list of all the possible API calls you can make:
       "success": true
     }
     ```
- 
 
 * **Sample Call:**
 
@@ -110,9 +109,98 @@ Here is a list of all the possible API calls you can make:
         return;
       }
     })
-  }
+   }
   ```
 
+**Get Questions**
+----
+  Returns json data including a list of questions, number of total questions, and categories.
+
+* **URL**
+
+  /questions?page=:page
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Optional:**
+ 
+   `page=[integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+    "categories": {
+      "1": "Science", 
+      "2": "Art", 
+      "3": "Geography", 
+      "4": "History", 
+      "5": "Entertainment", 
+      "6": "Sports"
+    }, 
+    "questions": [
+      {
+        "answer": "Yes?", 
+        "category": 1, 
+        "difficulty": 1, 
+        "id": 25, 
+        "question": "Is this going to work?"
+      }, 
+      {
+        "answer": "Blood", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 22, 
+        "question": "Hematology is a branch of medicine involving the study of what?"
+      }
+    ],
+     "success": true, 
+    "total_questions": 18
+    }
+    
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```
+    {
+    "success": False,
+    "message": "Resource not found"
+    }
+    ```
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: `/questions?page=${this.state.page}`, 
+      type: "GET",
+      success: (result) => {
+        this.setState({
+          questions: result.questions,
+          totalQuestions: result.total_questions,
+          categories: result.categories,
+          currentCategory: result.current_category })
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load questions. Please try your request again')
+        return;
+      }
+    })
+    }
+  ```
 
 ## Testing
 To run the tests, run
