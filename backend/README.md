@@ -254,6 +254,332 @@ Here is a list of all the possible API calls you can make:
     })
   ```
 
+**Create Question**
+----
+  Returns json data for newly created question
+
+* **URL**
+
+  /questions
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+  None
+
+* **Data Params**
+
+   **Required:**
+
+  ```
+  question=[String]
+  answer=[String]
+  category=[integer]
+  difficulty=[integer]
+  ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+      'question': 'Is this a new question?', 
+      'answer': 'Yes', 
+      'difficulty': 1, 
+      'category': 1, 
+      'success': True
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 422 UNPROCESSABLE <br />
+    **Content:**
+    ```
+    {
+    "success": False,
+    "message": "Unprocessable"
+    }
+    ```
+    
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: '/questions',
+      type: "POST",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        question: this.state.question,
+        answer: this.state.answer,
+        difficulty: this.state.difficulty,
+        category: this.state.category
+      }),
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true,
+      success: (result) => {
+        document.getElementById("add-question-form").reset();
+        return;
+      },
+      error: (error) => {
+        alert('Unable to add question. Please try your request again')
+        return;
+      }
+    })
+  ```
+
+**Search Questions**
+----
+  Endpoint to POST search term and returns matching questions
+
+* **URL**
+
+  /search/questions
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+  None
+
+* **Data Params**
+
+  **Required:**
+ 
+   `searchTerm=[String]`
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Response:**
+    ```
+    {
+      'total_questions': 2, 
+      'questions': [
+        {
+          'id': 5, 
+          'question': "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?", 
+          'answer': 'Maya Angelou', 
+          'category': 4, 
+          'difficulty': 2
+        }, 
+        {
+          'id': 6, 
+          'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?', 
+          'answer': 'Edward Scissorhands', 
+          'category': 5, 
+          'difficulty': 3
+        }
+      ], 
+      'success': True
+    }
+    ```
+ 
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: `/search/questions`,
+      type: "POST",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({searchTerm: searchTerm}),
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true,
+      success: (result) => {
+        this.setState({
+          questions: result.questions,
+          totalQuestions: result.total_questions,
+          currentCategory: result.current_category })
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load questions. Please try your request again')
+        return;
+      }
+    })
+  ```
+
+**Get Question By Category**
+----
+  Returns questions by category.
+
+* **URL**
+
+  /categories/:category_id/questions
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+
+  `category_id: [integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+      'success': True, 
+      'current_category': 1, 
+      'total_count': 2, 
+      'questions': [
+        {
+          'id': 22, 
+          'question': 'Hematology is a branch of medicine involving the study of what?', 
+          'answer': 'Blood', 
+          'category': 1, 
+          'difficulty': 4
+        }, 
+        {
+          'id': 25, 
+          'question': 'Is this going to work?', 
+          'answer': 'Yes', 
+          'category': 1, 
+          'difficulty': 1
+        }
+      ]
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```
+    {
+    "success": False,
+    "message": "Resource not found"
+    }
+    ```
+    
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: `/categories/${id}/questions`,
+      type: "GET",
+      success: (result) => {
+        this.setState({
+          questions: result.questions,
+          totalQuestions: result.total_questions,
+          currentCategory: result.current_category })
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load questions. Please try your request again')
+        return;
+      }
+    })
+  ```
+
+**Get Quiz Questions**
+----
+  Returns questions for quiz, by category if applicable.
+
+* **URL**
+
+  /quizzes
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+  None
+
+* **Data Params**
+
+   **Required:**
+   
+   `previous_questions: [List]`
+
+   **Optional:**
+
+  `quiz: [integer]`
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+      'success': True, 
+      'question': 
+        {
+          'id': 27, 
+          'question': 'Is this a new question?', 
+          'answer': 'Yes', 
+          'category': 1, 
+          'difficulty': 1
+        }
+     }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```
+    {
+    "success": False,
+    "message": "Resource not found"
+    }
+    ```
+    
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: '/quizzes',
+      type: "POST",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        previous_questions: previousQuestions,
+        quiz_category: this.state.quizCategory
+      }),
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true,
+      success: (result) => {
+        this.setState({
+          showAnswer: false,
+          previousQuestions: previousQuestions,
+          currentQuestion: result.question,
+          guess: '',
+          forceEnd: result.question ? false : true
+        })
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load question. Please try your request again')
+        return;
+      }
+    })
+  ```
+
 ## Testing
 To run the tests, run
 ```
