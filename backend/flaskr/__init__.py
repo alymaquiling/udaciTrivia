@@ -108,6 +108,7 @@ def create_app(test_config=None):
 
         response = req
         response['success'] = True
+        print(response)
         return jsonify(response)
 
 
@@ -129,6 +130,7 @@ def create_app(test_config=None):
         'questions': results,
         'success': True
         }
+        print(response)
 
         return jsonify(response)
 
@@ -147,6 +149,7 @@ def create_app(test_config=None):
         "total_count": Question.query.filter_by(category=category_id).count(),
         "questions": questions,
         }
+        print(response)
 
         return jsonify(response)
 
@@ -193,7 +196,7 @@ def create_app(test_config=None):
         'success': True,
         'question': cur_question
         }
-
+        print(response)
         return jsonify(response)
 
     ### Error handling
