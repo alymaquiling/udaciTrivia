@@ -52,15 +52,17 @@ Setting the `FLASK_ENV` variable to `development` will detect file changes and r
 
 Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
-## REST API
+## UdaciTrivia REST API
 
-**Show User**
+Here is a list of all the possible API calls you can make:
+
+**Get Categories**
 ----
-  Returns json data about a single user.
+  Returns json data for all categories.
 
 * **URL**
 
-  /users/:id
+  /categories
 
 * **Method:**
 
@@ -68,9 +70,7 @@ Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` d
   
 *  **URL Params**
 
-   **Required:**
- 
-   `id=[integer]`
+  None
 
 * **Data Params**
 
@@ -79,29 +79,38 @@ Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` d
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{ id : 12, name : "Michael Bloom" }`
+    **Content:** 
+    ```
+    {
+      "categories": {
+        "1": "Science", 
+        "2": "Art", 
+        "3": "Geography", 
+        "4": "History", 
+        "5": "Entertainment", 
+        "6": "Sports"
+      }, 
+      "success": true
+    }
+    ```
  
-* **Error Response:**
-
-  * **Code:** 404 NOT FOUND <br />
-    **Content:** `{ error : "User doesn't exist" }`
-
-  OR
-
-  * **Code:** 401 UNAUTHORIZED <br />
-    **Content:** `{ error : "You are unauthorized to make this request." }`
 
 * **Sample Call:**
 
   ```javascript
     $.ajax({
-      url: "/users/1",
-      dataType: "json",
-      type : "GET",
-      success : function(r) {
-        console.log(r);
+      url: `/categories`,
+      type: "GET",
+      success: (result) => {
+        this.setState({ categories: result.categories })
+        return;
+      },
+      error: (error) => {
+        alert('Unable to load categories. Please try your request again')
+        return;
       }
-    });
+    })
+  }
   ```
 
 
