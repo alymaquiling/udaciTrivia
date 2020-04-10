@@ -56,7 +56,7 @@ Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` d
 
 Here is a list of all the possible API calls you can make:
 
-**Get Categories**
+#### Get Categories
 ----
   Returns json data for all categories.
 
@@ -112,7 +112,7 @@ Here is a list of all the possible API calls you can make:
    }
   ```
 
-**Get Questions**
+#### Get Questions
 ----
   Returns json data including a list of questions, number of total questions, and categories.
 
@@ -202,7 +202,7 @@ Here is a list of all the possible API calls you can make:
     }
   ```
 
-**Delete Question**
+#### Delete Question
 ----
   Endpoint to DELETE a question based on id
 
@@ -335,7 +335,7 @@ Here is a list of all the possible API calls you can make:
     })
   ```
 
-**Search Questions**
+#### Search Questions
 ----
   Endpoint to POST search term and returns matching questions
 
@@ -411,7 +411,7 @@ Here is a list of all the possible API calls you can make:
     })
   ```
 
-**Get Question By Category**
+#### Get Question By Category
 ----
   Returns questions by category.
 
@@ -492,7 +492,7 @@ Here is a list of all the possible API calls you can make:
     })
   ```
 
-**Get Quiz Questions**
+#### Get Quiz Questions
 ----
   Returns questions for quiz, by category if applicable.
 
